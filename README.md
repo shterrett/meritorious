@@ -1,18 +1,11 @@
 Meritorious
 ===========
 
-Getting Started
----------------
+This is a behavior tracking application for school teachers to use.
 
-This repository comes equipped with a self-setup script!
-
-    % ./bin/setup
-
-After setting up, you can run the application using [foreman]:
-
-    % foreman start
-
-[foreman]: http://ddollar.github.io/foreman/
+In many schools, the concept of `merit` and `demerit` is used to track students'
+behavior. This application will allow a teacher to update these records in real
+time from a web interface.
 
 Guidelines
 ----------
@@ -23,3 +16,7 @@ programming in style.
 * [Protocol](http://github.com/thoughtbot/guides/blob/master/protocol)
 * [Best Practices](http://github.com/thoughtbot/guides/blob/master/best-practices)
 * [Style](http://github.com/thoughtbot/guides/blob/master/style)
+
+This project is also a foray and experiment into DCI. The
+[Schizo](https://github.com/cjbottaro/schizo) gem is used to dynamically mixin
+behavior to objects at runtime. This style will be used throughout the codebase.
