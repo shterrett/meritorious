@@ -4,7 +4,7 @@ describe Mark do
   it { expect(subject).to belong_to :content }
   it { expect(subject).to belong_to :teacher }
   it { expect(subject).to belong_to :student }
-  it { expect(subject).to belong_to :classroom }
+  it { expect(subject).to belong_to :meeting }
 
   describe 'polymorhism' do
     it 'can be a merit' do
