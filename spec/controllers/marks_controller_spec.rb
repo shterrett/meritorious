@@ -7,9 +7,10 @@ describe MarksController do
       teacher = classroom.teacher
       student = classroom.students.first
 
+      sign_in teacher
+
       expect do
         post :create, { classroom_id: classroom.id,
-                        teacher_id: teacher.id,
                         student_id: student.id,
                         mark: { type: 'merit' }
                       }

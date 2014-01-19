@@ -3,6 +3,7 @@ FactoryGirl.define do
     first_name 'Richard'
     last_name 'Feynman'
     email 'physics@theuniverse.com'
+    password 'password123'
   end
 
   factory :student do
