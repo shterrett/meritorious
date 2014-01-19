@@ -6,8 +6,8 @@ class MarksController < AuthenticatedController
 
   private
 
-  def find_classroom
-    Classroom.find_by_id(params[:classroom_id])
+  def find_meeting
+    Meeting.find_by_id(params[:meeting_id])
   end
 
   def find_student
@@ -15,7 +15,7 @@ class MarksController < AuthenticatedController
   end
 
   def build_mark
-    CreatingMarks.new(current_teacher, find_classroom).create(mark_params)
+    CreatingMarks.new(current_teacher, find_meeting).create(mark_params)
   end
 
   def mark_params

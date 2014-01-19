@@ -28,10 +28,14 @@ FactoryGirl.define do
     classroom nil
   end
 
+  factory :meeting do
+    classroom
+  end
+
   factory :mark do
     student nil
     teacher nil
-    classroom nil
+    meeting nil
     content nil
     content_type 'Merit'
   end

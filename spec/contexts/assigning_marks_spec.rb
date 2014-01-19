@@ -28,16 +28,34 @@ describe AssigningMarks do
   describe 'assigning marks' do
     it 'adds the mark to the student' do
       classroom = create(:classroom, :populated)
+      meeting = create(:meeting, classroom: classroom)
       teacher = classroom.teacher
       student = classroom.students.first
       merit = create(:merit)
-      mark = build(:mark, teacher: teacher, classroom: classroom, content: merit)
+      mark = build(:mark, teacher: teacher, meeting: meeting, content: merit)
       context = AssigningMarks.new(teacher, student)
 
       context.assign(mark)
 
       expect(mark.reload.student).to eq(student)
       expect(student.as(Assignee).marks).to match_array([mark])
+    end
+
+    it 'does not assign the mark if the student does not belong to the teacher' do
+      classroom = create(:classroom, :populated)
+      meeting = create(:meeting, classroom: classroom)
+      teacher = classroom.teacher
+      student = create(:student)
+      merit = create(:merit)
+      mark = build(:mark, teacher: teacher, meeting: meeting, content: merit)
+      context = AssigningMarks.new(teacher, student)
+
+      result = context.assign(mark)
+
+      expect do
+        mark.reload
+      end.to raise_error(ActiveRecord::RecordNotFound)
+      expect(result).to be_nil
     end
   end
 end

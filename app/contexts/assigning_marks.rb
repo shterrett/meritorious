@@ -5,7 +5,7 @@ class AssigningMarks
   end
 
   def assign(mark)
-    if @assigner.students.include? @assignee
+    if @assigner.can_assign? @assignee
       @assignee.marks << mark
     end
   end

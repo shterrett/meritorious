@@ -1,13 +1,13 @@
 class CreatingMarks
-  def initialize(teacher, classroom)
+  def initialize(teacher, meeting)
     @teacher = teacher
-    @classroom = classroom
+    @meeting = meeting
   end
 
   def create(mark_params)
     Mark.new.tap do |mark|
       mark.teacher = @teacher
-      mark.classroom = @classroom
+      mark.meeting = @meeting
       mark.content = build_content(mark_params)
     end
   end
