@@ -7,6 +7,7 @@ gem 'airbrake'
 gem 'bourbon'
 gem 'coffee-rails'
 gem 'delayed_job_active_record', '>= 4.0.0'
+gem 'devise'
 gem 'email_validator'
 gem 'flutie'
 gem 'high_voltage'
@@ -26,6 +27,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'foreman'
+  gem 'letter_opener'
 end
 
 group :development, :test do

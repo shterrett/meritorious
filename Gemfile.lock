@@ -31,6 +31,7 @@ GEM
       multi_json
     arel (4.0.1)
     atomic (1.1.14)
+    bcrypt-ruby (3.1.2)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -66,6 +67,12 @@ GEM
     delayed_job_active_record (4.0.0)
       activerecord (>= 3.0, < 4.1)
       delayed_job (>= 3.0, < 4.1)
+    devise (3.2.2)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.2)
     dotenv (0.9.0)
@@ -94,6 +101,8 @@ GEM
     kgio (2.8.1)
     launchy (2.4.2)
       addressable (~> 2.3)
+    letter_opener (1.1.2)
+      launchy (~> 2.2)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -107,6 +116,7 @@ GEM
     newrelic_rpm (3.7.1.182)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
+    orm_adapter (0.5.0)
     pg (0.17.1)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -189,6 +199,8 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    warden (1.2.3)
+      rack (>= 1.0)
     webmock (1.17.1)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
@@ -207,6 +219,7 @@ DEPENDENCIES
   coffee-rails
   database_cleaner
   delayed_job_active_record (>= 4.0.0)
+  devise
   dotenv-rails
   email_validator
   factory_girl_rails
@@ -215,6 +228,7 @@ DEPENDENCIES
   high_voltage
   jquery-rails
   launchy
+  letter_opener
   neat
   newrelic_rpm (>= 3.6.7)
   pg
