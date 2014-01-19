@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :school do
+    name 'Schrodinger High School'
+  end
+
   factory :teacher do
     first_name 'Richard'
     last_name 'Feynman'

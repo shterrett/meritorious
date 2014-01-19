@@ -1,4 +1,5 @@
 class Classroom < ActiveRecord::Base
+  belongs_to :school
   belongs_to :teacher
 
   has_many :class_assignments
