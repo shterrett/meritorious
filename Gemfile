@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'dotenv', groups: [:development, :test]
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'airbrake'
 gem 'bourbon'
 gem 'coffee-rails'

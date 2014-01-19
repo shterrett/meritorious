@@ -6,6 +6,11 @@ describe Assigner do
       assigner = create(:teacher).as(Assigner)
       expect(assigner).to have_many(:students)
     end
+
+    it 'has_many marks' do
+      assigner = create(:teacher).as(Assigner)
+      expect(assigner).to have_many(:marks)
+    end
   end
 
   describe '#can_assign?' do
