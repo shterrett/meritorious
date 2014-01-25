@@ -14,6 +14,8 @@ FactoryGirl.define do
     first_name 'Ferris'
     last_name 'Bueller'
     email 'fbueller@example.com'
+    school
+    sequence(:student_id) { |n| "#{school.id}-#{n}" }
   end
 
   factory :classroom do

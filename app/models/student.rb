@@ -5,4 +5,7 @@ class Student < ActiveRecord::Base
 
   has_many :class_assignments
   has_many :classrooms, through: :class_assignments
+
+  validates :student_id, presence: true,
+                         uniqueness: { scope: :school_id }
 end
