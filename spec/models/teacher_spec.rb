@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Teacher do
+  it { expect(subject).to have_many :classrooms }
+  it { expect(subject).to have_many :meetings }
+  it { expect(subject).to have_many :students }
   it { expect(subject).to belong_to :school }
   it { expect(subject).to respond_to :as }
   it { expect(subject).to validate_presence_of(:password) }

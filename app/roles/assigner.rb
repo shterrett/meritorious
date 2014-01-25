@@ -2,9 +2,6 @@ module Assigner
   extend ActiveSupport::Concern
 
   included do
-    has_many :classrooms
-    has_many :students, through: :classrooms
-    has_many :meetings, through: :classrooms
     has_many :marks
   end
 
