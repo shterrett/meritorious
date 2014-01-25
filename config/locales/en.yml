@@ -9,3 +9,17 @@ en:
       default: '%a, %b %-d, %Y at %r'
       date: '%b %-d, %Y'
       short: '%B %d'
+  activerecord:
+      attributes:
+        student:
+          student_id: student-id
+      errors:
+        format: #{message}
+
+        full_messages:
+        models:
+          student:
+            attributes:
+              student_id:
+                blank: cannot be blank
+                unique: must be unique
