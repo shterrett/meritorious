@@ -2,19 +2,9 @@ require 'spec_helper'
 
 describe Assigner do
   describe 'associations' do
-    it 'has_many students' do
-      assigner = create(:teacher).as(Assigner)
-      expect(assigner).to have_many(:students)
-    end
-
     it 'has_many marks' do
       assigner = create(:teacher).as(Assigner)
       expect(assigner).to have_many(:marks)
-    end
-
-    it 'has_many meetings' do
-      assigner = create(:teacher).as(Assigner)
-      expect(assigner).to have_many(:meetings)
     end
   end
 
