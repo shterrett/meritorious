@@ -124,6 +124,15 @@ describe StudentImporter do
           ).to match_array([student_attributes])
   end
 
+  it 'does not add a class_assignment record if the student record is invalid' do
+    classroom = create(:classroom)
+    student_importer = StudentImporter.new(file('student_missing_id.csv'), classroom)
+
+    expect do
+      student_importer.import
+    end.to change(ClassAssignment, :count).by(0)
+  end
+
   it 'records an error if a student is missing the student id' do
     classroom = create(:classroom)
     student_importer = StudentImporter.new(file('student_missing_id.csv'), classroom)
