@@ -29,7 +29,6 @@ class StudentImporter
 
   def add_student(params)
     student(params).tap do |student|
-      puts student.inspect
       if student.valid?
         ActiveRecord::Base.transaction do
           student.save

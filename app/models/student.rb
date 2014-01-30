@@ -8,7 +8,7 @@ class Student < ActiveRecord::Base
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :student_id, presence: { message: :blank},
+  validates :student_id, presence: { message: :blank },
                          uniqueness: { scope: :school_id,
                                        message: :unique
                                      }
