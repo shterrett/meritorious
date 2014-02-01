@@ -10,9 +10,10 @@ describe Assigner do
 
   describe '#can_assign?' do
     it 'returns true if the assignee is a student of the assigner' do
-      assigner = create(:teacher).as(Assigner)
-      classroom = create(:classroom, teacher: assigner)
-      assignee = create(:student).as(Assignee)
+      school = create(:school)
+      assigner = create(:teacher, school: school).as(Assigner)
+      classroom = create(:classroom, teacher: assigner, school: school)
+      assignee = create(:student, school: school).as(Assignee)
       assignee.classrooms << classroom
 
       expect(assigner.can_assign?(assignee)).to be_true

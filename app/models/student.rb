@@ -5,4 +5,11 @@ class Student < ActiveRecord::Base
 
   has_many :class_assignments
   has_many :classrooms, through: :class_assignments
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :student_id, presence: { message: :blank },
+                         uniqueness: { scope: :school_id,
+                                       message: :unique
+                                     }
 end

@@ -42,10 +42,11 @@ describe AssigningMarks do
     end
 
     it 'does not assign the mark if the student does not belong to the teacher' do
-      classroom = create(:classroom, :populated)
+      school = create(:school)
+      classroom = create(:classroom, :populated, school: school)
       meeting = create(:meeting, classroom: classroom)
       teacher = classroom.teacher
-      student = create(:student)
+      student = create(:student, school: school)
       merit = create(:merit)
       mark = build(:mark, teacher: teacher, meeting: meeting, content: merit)
       context = AssigningMarks.new(teacher, student)
