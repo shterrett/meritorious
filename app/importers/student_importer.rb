@@ -2,7 +2,8 @@ require 'csv'
 
 class StudentImporter
   IMPORTER_OPTIONS = { col_sep: ',', quote_char: '%', headers: true, header_converters: :symbol }
-  ATTRIBUTES = [:first_name, :last_name, :email, :student_id]
+  REQUIRED_ATTRIBUTES = [:first_name, :last_name, :student_id]
+  ATTRIBUTES = [*REQUIRED_ATTRIBUTES, :email]
 
   attr_reader :row_errors
 
@@ -14,7 +15,9 @@ class StudentImporter
   end
 
   def import
-    csv.each { |row | add_student(student_params(row)) }
+    if valid?
+      csv.each { |row| add_student(student_params(row)) }
+    end
   end
 
   private
@@ -58,5 +61,18 @@ class StudentImporter
 
   def error_key(row)
     [row[:first_name], row[:last_name], row[:student_id]].compact.join(' ')
+  end
+
+  def valid?
+    if REQUIRED_ATTRIBUTES.all? { |atrb| csv.headers.include? atrb }
+      true
+    else
+      row_errors['file'] = "Missing column: #{missing_attributes.join(', ')}"
+      false
+    end
+  end
+
+  def missing_attributes
+    REQUIRED_ATTRIBUTES.reject { |atrb| csv.headers.include? atrb }
   end
 end

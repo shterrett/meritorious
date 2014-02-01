@@ -169,6 +169,17 @@ describe StudentImporter do
     expect(student_importer.row_errors).to eq({ 'Charles 2cities' => errors })
   end
 
+  it 'records an error and does not import if a required column is missing from the file' do
+    classroom = create(:classroom)
+    student_importer = StudentImporter.new(file('students_missing_column.csv'), classroom)
+
+    expect do
+      student_importer.import
+    end.to change(Student, :count).by(0)
+
+    expect(student_importer.row_errors).to eq({ 'file' => 'Missing column: student_id' })
+  end
+
   def file(file_name)
     Rack::Test::UploadedFile.new(Rails.root.join('spec', 'data', 'importers', file_name), 'text/csv')
   end
