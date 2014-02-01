@@ -8,6 +8,8 @@ describe Teacher do
   it { expect(subject).to respond_to :as }
   it { expect(subject).to validate_presence_of(:password) }
   it { expect(subject).to validate_presence_of(:email) }
+  it { expect(subject).to validate_presence_of(:first_name) }
+  it { expect(subject).to validate_presence_of(:last_name) }
 
   it 'validates email is unique' do
     create(:teacher, email: 'test@example.com')
