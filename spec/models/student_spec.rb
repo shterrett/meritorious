@@ -39,4 +39,12 @@ describe Student do
       expect(student).to be_valid
     end
   end
+
+  describe '#name' do
+    it 'returns the first and last name' do
+      student = build(:student, first_name: 'Truman', last_name: 'Capote')
+
+      expect(student.name).to eq('Truman Capote')
+    end
+  end
 end

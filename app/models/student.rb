@@ -12,4 +12,8 @@ class Student < ActiveRecord::Base
                          uniqueness: { scope: :school_id,
                                        message: :unique
                                      }
+
+  def name
+    "#{first_name} #{last_name}"
+  end
 end

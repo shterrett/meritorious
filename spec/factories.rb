@@ -43,7 +43,7 @@ FactoryGirl.define do
     student nil
     teacher nil
     meeting nil
-    content nil
+    content { build(:merit) }
     content_type 'Merit'
   end
 
