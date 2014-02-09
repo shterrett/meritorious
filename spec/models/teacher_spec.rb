@@ -15,4 +15,12 @@ describe Teacher do
     create(:teacher, email: 'test@example.com')
     expect(subject).to validate_uniqueness_of(:email)
   end
+
+  describe '#name' do
+    it 'concatonates the first and last name' do
+      teacher = build(:teacher)
+
+      expect(teacher.name).to eq "#{teacher.first_name} #{teacher.last_name}"
+    end
+  end
 end
