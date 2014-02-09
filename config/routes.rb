@@ -3,7 +3,7 @@ Meritorious::Application.routes.draw do
   root to: 'high_voltage/pages#show', id: 'home'
 
   resources :classrooms, only: [:index, :show]
-  resources :meetings, only: [] do
+  resources :meetings, only: [:show, :create] do
     resources :marks, only: [:create]
   end
 end

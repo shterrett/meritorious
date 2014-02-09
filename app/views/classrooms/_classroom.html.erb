@@ -1,3 +1,4 @@
 <li data-role='classroom-<%= classroom.id %>'>
   <%= link_to classroom.name, classroom_path(classroom) %>
+  <span class='new-meeting'><%= button_to 'Start Class', meetings_path(classroom_id: classroom.id) %></span>
 </li>

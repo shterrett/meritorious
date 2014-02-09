@@ -7,6 +7,7 @@ en:
   time:
     formats:
       default: '%a, %b %-d, %Y at %r'
+      day_time: '%a, %b %-d %l:%M'
       date: '%b %-d, %Y'
       short: '%B %d'
   activerecord:
