@@ -9,7 +9,7 @@ feature 'classrooms' do
                              school: school
                             )
 
-    login_as(teacher, scope: :teacher)
+    sign_in_as teacher
     visit classrooms_path
 
     classrooms.each do |classroom|
@@ -25,7 +25,7 @@ feature 'classrooms' do
     students = create_list(:student, 2, school: classroom.school)
     classroom.students << students
 
-    login_as(teacher, scope: :teacher)
+    sign_in_as teacher
     visit classroom_path(classroom)
 
     expect(page).to have_css 'h1', text: classroom.name
