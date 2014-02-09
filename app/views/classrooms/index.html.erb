@@ -1,0 +1,11 @@
+<section id='classrooms'>
+  <header>
+    <h1>Classrooms for <%= current_teacher.name %></h1>
+  </header>
+
+  <ul id='classroom-list'>
+    <% @classrooms.each do |classroom| %>
+      <%= render 'classroom', classroom: classroom %>
+    <% end %>
+  </ul>
+</section>
