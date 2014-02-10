@@ -6,7 +6,7 @@
   <div id='end-class'><%= link_to 'End Class', classrooms_path %></div>
   <section id='students-list'>
     <ul>
-      <%= @meeting.students.each do |student| %>
+      <% @meeting.students.each do |student| %>
         <%= render 'student', student: student, meeting: @meeting %>
       <% end %>
     </ul>
