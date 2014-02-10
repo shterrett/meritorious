@@ -8,12 +8,14 @@ feature 'meetings' do
     sign_in_as teacher
     visit classrooms_path
 
-    within "[data-role='classroom-#{classroom.id}']" do
-      click_button 'Start Class'
-    end
+    Timecop.freeze do
+      within "[data-role='classroom-#{classroom.id}']" do
+        click_button 'Start Class'
+      end
 
-    expect(page).to have_content classroom.name
-    expect(page).to have_content I18n.l DateTime.now, format: :day_time
+      expect(page).to have_content classroom.name
+      expect(page).to have_content I18n.l Time.zone.now, format: :day_time
+    end
   end
 
   it 'ends a meeting and returns to the classroom list' do
@@ -49,8 +51,8 @@ feature 'meetings' do
 
     within "[data-role='student-#{student.id}']" do
       expect(page).to have_text student.name
-      expect(page).to have_link '+', href: meeting_marks_path(meeting_id)
-      expect(page).to have_link '-', href: meeting_marks_path(meeting_id)
+      expect(page).to have_link '+', href: meeting_marks_path(meeting_id, type: :merit)
+      expect(page).to have_link '-', href: meeting_marks_path(meeting_id, type: :demerit)
     end
   end
 end

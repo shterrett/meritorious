@@ -5,7 +5,7 @@ class MeetingsController < AuthenticatedController
   end
 
   def show
-    @meeting = find_meeting
+    @meeting = MeetingPresenter.new(find_meeting)
   end
 
   private
