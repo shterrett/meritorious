@@ -1,0 +1,9 @@
+<li data-role='student-<%= student.id %>'>
+  <div><%= student.name %></div>
+  <div class='add-merit'>
+    <%= link_to '+', meeting_marks_path(meeting, type: :merit) %>
+  </div>
+  <div class='add-demerit'>
+    <%= link_to '-', meeting_marks_path(meeting, type: :demerit) %>
+  </div>
+</li>
