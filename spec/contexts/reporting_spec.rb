@@ -11,52 +11,96 @@ describe Reporting do
   end
 
   describe 'by_meeting' do
-    it 'reduces the set of marks by student' do
-      classroom = create(:classroom)
-      meeting = create(:meeting, classroom: classroom)
-      student = create(:student, school: classroom.school)
-      student.classrooms << classroom
-      marks = [
-                create(:mark, content_type: 'Merit', content: create(:merit)),
-                create(:mark, content_type: 'Merit', content: create(:merit)),
-                create(:mark, content_type: 'Demerit', content: create(:demerit)),
-                create(:mark, content_type: 'Demerit', content: create(:demerit))
-              ]
-      student.as(Assignee) do |assignee|
-        assignee.marks << marks
+    context 'as csv' do
+      it 'reduces the set of marks by student' do
+        classroom = create(:classroom)
+        meeting = create(:meeting, classroom: classroom)
+        student = create(:student, school: classroom.school)
+        student.classrooms << classroom
+        marks = create_marks_list
+        student.as(Assignee) do |assignee|
+          assignee.marks << marks
+        end
+        meeting.marks << marks
+
+        reporting = Reporting.new(meeting)
+        report = reporting.csv_data(:meeting)
+
+        expect(report.first).to eq([student.name, student.student_id, 2, 2])
       end
-      meeting.marks << marks
+    end
 
-      reporting = Reporting.new(meeting)
-      report = reporting.csv_data(:meeting)
+    context 'as data' do
+      it 'returns an array of StudentMarksPresenters with the marks for the meeting' do
+        classroom = create(:classroom)
+        meeting = create(:meeting, classroom: classroom)
+        student = create(:student, school: classroom.school)
+        student.classrooms << classroom
+        marks = create_marks_list
+        student.as(Assignee) do |assignee|
+          assignee.marks << marks
+        end
+        meeting.marks << marks
 
-      expect(report.first).to eq([student.name, student.student_id, 2, 2])
+        reporting = Reporting.new(meeting)
+        report = reporting.data(:meeting)
+
+        expect(report.first).to be_an_instance_of StudentMarksPresenter
+        expect(report.first.name).to eq student.name
+        expect(report.first.merits_count).to eq 2
+      end
     end
   end
 
   describe 'by_student_meeting' do
-    it 'returns the marks for a particular student for a particular meeting (as the reporter)' do
-      classroom = create(:classroom)
-      meeting = create(:meeting, classroom: classroom)
-      student = create(:student, school: classroom.school)
-      student.classrooms << classroom
-      marks = [
-                create(:mark, content_type: 'Merit', content: create(:merit)),
-                create(:mark, content_type: 'Merit', content: create(:merit)),
-                create(:mark, content_type: 'Demerit', content: create(:demerit)),
-                create(:mark, content_type: 'Demerit', content: create(:demerit))
-              ]
-      student.as(Assignee) do |assignee|
-        assignee.marks << marks
+    context 'as data' do
+      it 'returns the marks for a particular student for a particular meeting (as the reporter)' do
+        classroom = create(:classroom)
+        meeting = create(:meeting, classroom: classroom)
+        student = create(:student, school: classroom.school)
+        student.classrooms << classroom
+        marks = create_marks_list
+        student.as(Assignee) do |assignee|
+          assignee.marks << marks
+        end
+        meeting.marks << marks
+
+        reporting = Reporting.new(meeting)
+        report = reporting.data(:student_meeting, student)
+
+        expect(report).to be_an_instance_of StudentMarksPresenter
+        expect(report.merits_count).to eq(2)
+        expect(report.demerits_count).to eq(2)
       end
-      meeting.marks << marks
-
-      reporting = Reporting.new(meeting)
-      report = reporting.data(:student_meeting, student)
-
-      expect(report).to be_an_instance_of StudentMarksPresenter
-      expect(report.merits_count).to eq(2)
-      expect(report.demerits_count).to eq(2)
     end
+
+    context 'as csv' do
+      it 'returns a single row for the student' do
+        classroom = create(:classroom)
+        meeting = create(:meeting, classroom: classroom)
+        student = create(:student, school: classroom.school)
+        student.classrooms << classroom
+        marks = create_marks_list
+        student.as(Assignee) do |assignee|
+          assignee.marks << marks
+        end
+        meeting.marks << marks
+
+        reporting = Reporting.new(meeting)
+        report = reporting.csv_data(:student_meeting, student)
+
+        expect(report.count).to eq 1
+        expect(report.first).to eq([student.name, student.student_id, 2, 2])
+      end
+    end
+  end
+
+  def create_marks_list
+    [
+      create(:mark, content_type: 'Merit', content: create(:merit)),
+      create(:mark, content_type: 'Merit', content: create(:merit)),
+      create(:mark, content_type: 'Demerit', content: create(:demerit)),
+      create(:mark, content_type: 'Demerit', content: create(:demerit))
+    ]
   end
 end

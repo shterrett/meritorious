@@ -3,9 +3,9 @@ class Reporting
     @reporter = reporter.as(Reporter)
   end
 
-  def csv_data(type)
+  def csv_data(type, *args)
     CsvReportPresenter.new(['Student Name', 'Student id', 'Number of Merits', 'Number of Demerits'],
-                           send("by_#{type}").map(&:to_row)
+                           data_for_csv(type, *args).map(&:to_row)
                           )
   end
 
@@ -14,6 +14,10 @@ class Reporting
   end
 
   private
+
+  def data_for_csv(type, *args)
+    [data(type, *args)].flatten
+  end
 
   def by_meeting
     @reporter.classroom.students.each_with_object([]) do |student, students|
