@@ -24,7 +24,7 @@ describe StudentMarksPresenter do
     end
   end
 
-  describe 'marks method' do
+  describe 'marks methods' do
     it 'can add a list of merits to existing merits' do
       merit = create(:mark, content_type: 'Merit', content: create(:merit))
       student = create(:student)

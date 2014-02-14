@@ -28,5 +28,5 @@ RSpec.configure do |config|
   config.include SignInHelpers
 end
 
-Capybara.javascript_driver = :webkit
+Capybara.javascript_driver = :quiet_webkit
 WebMock.disable_net_connect!(allow_localhost: true)

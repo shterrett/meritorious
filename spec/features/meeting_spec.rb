@@ -9,9 +9,7 @@ feature 'meetings' do
     visit classrooms_path
 
     Timecop.freeze do
-      within "[data-role='classroom-#{classroom.id}']" do
-        click_button 'Start Class'
-      end
+      start_meeting_for(classroom)
 
       expect(page).to have_content classroom.name
       expect(page).to have_content I18n.l Time.zone.now, format: :day_time
@@ -42,26 +40,13 @@ feature 'meetings' do
 
     sign_in_as teacher
     visit classrooms_path
+    start_meeting_for(classroom)
 
-    within "[data-role='classroom-#{classroom.id}']" do
-      click_button 'Start Class'
-    end
+    student_on_page = StudentInMeeting.new(student)
 
-    meeting_id = (page.current_path.split('/'))[2]
-
-    within "[data-role='student-#{student.id}']" do
-      expect(page).to have_text student.name
-      expect(page).to have_link '+', href: meeting_marks_path(meeting_id,
-                                                              mark: { type: :merit },
-                                                              student_id: student.id
-                                                             )
-      expect(page).to have_link '-', href: meeting_marks_path(meeting_id,
-                                                              mark: { type: :demerit },
-                                                              student_id: student.id
-                                                             )
-      expect(page).to have_css '.merits-count', text: '0'
-      expect(page).to have_css '.demerits-count', text: '0'
-    end
+    expect(student_on_page).to have_student_on_page
+    expect(student_on_page).to have_demerit_link
+    expect(student_on_page).to have_merit_link
   end
 
   it 'adds a merit to a student', js: true do
@@ -72,17 +57,12 @@ feature 'meetings' do
 
     sign_in_as teacher
     visit classrooms_path
+    start_meeting_for(classroom)
 
-    within "[data-role='classroom-#{classroom.id}']" do
-      click_button 'Start Class'
-    end
+    student_on_page = StudentInMeeting.new(student)
 
-    meeting_id = (page.current_path.split('/'))[2]
-
-    within "[data-role='student-#{student.id}']" do
-      click_link '+'
-      expect(page).to have_css '.merits-count', text: '1'
-    end
+    student_on_page.add_mark(:merit)
+    expect(student_on_page).to have_added_mark(:merit)
   end
 
   it 'adds a demerit to a student', js: true do
@@ -93,16 +73,17 @@ feature 'meetings' do
 
     sign_in_as teacher
     visit classrooms_path
+    start_meeting_for(classroom)
 
+    student_on_page = StudentInMeeting.new(student)
+
+    student_on_page.add_mark(:demerit)
+    expect(student_on_page).to have_added_mark(:demerit)
+  end
+
+  def start_meeting_for(classroom)
     within "[data-role='classroom-#{classroom.id}']" do
       click_button 'Start Class'
-    end
-
-    meeting_id = (page.current_path.split('/'))[2]
-
-    within "[data-role='student-#{student.id}']" do
-      click_link '-'
-      expect(page).to have_css '.demerits-count', '1'
     end
   end
 end
