@@ -1,9 +1,25 @@
 <li data-role='student-<%= student.id %>'>
   <div><%= student.name %></div>
   <div class='add-merit'>
-    <%= link_to '+', meeting_marks_path(meeting, type: :merit) %>
+    <%= link_to '+',
+                meeting_marks_path(meeting,
+                                   mark: { type: :merit },
+                                   student_id: student.id
+                                  ),
+                remote: true,
+                method: :post
+    %>
   </div>
+  <p class='merits-count'>0</p>
   <div class='add-demerit'>
-    <%= link_to '-', meeting_marks_path(meeting, type: :demerit) %>
+    <%= link_to '-',
+                meeting_marks_path(meeting,
+                                   mark: { type: :demerit },
+                                   student_id: student.id
+                                  ),
+                remote: true,
+                method: :post
+    %>
   </div>
+  <p class='demerits-count'>0</p>
 </li>

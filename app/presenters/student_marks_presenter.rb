@@ -15,6 +15,18 @@ class StudentMarksPresenter
     @student.student_id
   end
 
+  def id
+    @student.id
+  end
+
+  def merits_count
+    @merits.length
+  end
+
+  def demerits_count
+    @demerits.length
+  end
+
   def add_merits(merits)
     @merits.concat(merits)
   end

@@ -1,7 +1,9 @@
 class MarksController < AuthenticatedController
+  respond_to :js
+
   def create
     AssigningMarks.new(current_teacher, find_student).assign(build_mark)
-    render json: { status: :ok }
+    @student = Reporting.new(find_meeting).data(:student_meeting, find_student)
   end
 
   private
