@@ -3,6 +3,11 @@
     <h1>Classrooms for <%= current_teacher.name %></h1>
   </header>
 
+  <section id='new-classroom'>
+    <%= link_to 'Create Classroom', new_classroom_path, remote: true %>
+    <div id='new-classroom-form'></div>
+  </section>
+
   <ul id='classroom-list'>
     <% @classrooms.each do |classroom| %>
       <%= render 'classroom', classroom: classroom %>
