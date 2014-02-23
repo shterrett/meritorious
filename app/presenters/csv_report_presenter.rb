@@ -12,6 +12,10 @@ class CsvReportPresenter
     data.each(&block)
   end
 
-  private
+  def ==(other)
+    data == other.data
+  end
+
+  protected
   attr_reader :data
 end

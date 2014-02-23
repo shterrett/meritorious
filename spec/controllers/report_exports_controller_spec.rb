@@ -21,6 +21,6 @@ describe MeetingReportExportsController do
 
     report = Reporting.new(meeting)
     data = report.csv_data(:meeting)
-    expect(assigns(:data).send(:data)).to eq data.send(:data)
+    expect(assigns(:data)).to eq data
   end
 end
