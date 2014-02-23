@@ -81,6 +81,24 @@ feature 'meetings' do
     expect(student_on_page).to have_added_mark(:demerit)
   end
 
+  it 'exports a csv report for the meeting', js: true do
+    classroom = create(:classroom)
+    teacher = classroom.teacher
+    student = create(:student, school: classroom.school)
+    classroom.students << student
+
+    sign_in_as teacher
+    visit classrooms_path
+    start_meeting_for(classroom)
+
+    student_on_page = StudentInMeeting.new(student)
+    student_on_page.add_mark(:demerit)
+
+    click_button 'Export Meeting Report'
+
+    expect(page).to have_text(['Student Name', 'Student id', 'Number of Merits', 'Number of Demerits'].join(','))
+  end
+
   def start_meeting_for(classroom)
     within "[data-role='classroom-#{classroom.id}']" do
       click_button 'Start Class'

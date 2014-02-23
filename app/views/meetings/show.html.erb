@@ -4,6 +4,7 @@
     <h2><%= @meeting.start_time %></h2>
   </header>
   <div id='end-class'><%= link_to 'End Class', classrooms_path %></div>
+  <div id='export-report'><%= button_to 'Export Meeting Report', meeting_meeting_report_exports_path(@meeting, format: :csv) %>
   <section id='students-list'>
     <ul>
       <% @meeting.students.each do |student| %>
