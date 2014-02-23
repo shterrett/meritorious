@@ -33,4 +33,17 @@ feature 'classrooms' do
       expect(page).to have_css '[data-role="student"]', text: student.name
     end
   end
+
+  scenario 'creates a classroom', js: true do
+    teacher = create(:teacher)
+
+    sign_in_as teacher
+    visit classrooms_path
+
+    click_link 'Create Classroom'
+    fill_in 'Name', with: 'Quantum Physics'
+    click_button 'Create'
+
+    expect(page).to have_link('Quantum Physics')
+  end
 end
