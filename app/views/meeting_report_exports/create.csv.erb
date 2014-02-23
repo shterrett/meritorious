@@ -1,0 +1,4 @@
+<%= @data.headers.join(',') %>
+<% @data.each do |row| %>
+  <%= row.join(',') %>
+<% end %>
