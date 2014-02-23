@@ -25,11 +25,14 @@ gem 'uglifier'
 gem 'unicorn'
 
 group :development do
-  gem 'faker'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'foreman'
   gem 'letter_opener'
+end
+
+group :development, :staging do
+  gem 'faker'
 end
 
 group :development, :test do
