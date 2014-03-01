@@ -8,4 +8,18 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+section {
+  margin: 1%
+}
+
+@import 'main_nav';
 @import 'classroom';

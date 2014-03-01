@@ -1,0 +1,8 @@
+<nav class='main'>
+  <% if current_teacher %>
+    <%= render 'main_nav' %>
+  <% else %>
+    <%= render 'signed_out_nav' %>
+  <% end %>
+  <div class='clearfix'>
+</nav>

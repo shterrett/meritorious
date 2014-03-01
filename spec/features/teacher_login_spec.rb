@@ -13,4 +13,16 @@ feature 'teacher signs in' do
 
     expect(page).to have_content 'Signed in successfully.'
   end
+
+  scenario 'signs out' do
+    teacher = create(:teacher)
+
+    sign_in_as teacher
+
+    visit classrooms_path
+
+    click_link 'Sign Out'
+    expect(page).to have_content 'meritorious'
+    expect(page).to have_link 'Sign In'
+  end
 end

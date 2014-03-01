@@ -1,0 +1,21 @@
+nav.main {
+  background-color: $dark-gray;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding: 0.5%;
+
+  li {
+    display: inline-block;
+
+    &#title {
+      font-size: 1.125em;
+      font-weight: 800;
+      margin-right: 2.5%;
+    }
+
+    &#session {
+      float: right;
+    }
+  }
+}

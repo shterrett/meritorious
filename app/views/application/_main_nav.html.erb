@@ -1,0 +1,7 @@
+<ul class='signed-in'>
+  <li id='title'><%= link_to 'meritorious', root_path %></li>
+  <li><%= link_to 'Classrooms', classrooms_path %></li>
+  <li id='session'>
+    <%= link_to 'Sign Out', destroy_teacher_session_path, method: :delete %>
+  </li>
+</ul>
