@@ -26,6 +26,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.include SignInHelpers
+  config.include ImportFileHelpers
 end
 
 Capybara.javascript_driver = :quiet_webkit

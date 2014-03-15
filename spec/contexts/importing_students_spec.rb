@@ -25,7 +25,11 @@ describe ImportingStudents do
     expect(importing.import).to eq({ 'Charles 2cities' => errors })
   end
 
-  def uploaded_file(file_name)
-    Rack::Test::UploadedFile.new(Rails.root.join('spec', 'data', 'importers', file_name), 'text/csv')
+  it 'returns an empty errors hash if the import was successful' do
+    file = uploaded_file('students.csv')
+    classroom = create(:classroom)
+    importing = ImportingStudents.new(file, classroom)
+
+    expect(importing.import).to eq({})
   end
 end
