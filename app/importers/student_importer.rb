@@ -67,7 +67,7 @@ class StudentImporter
     if REQUIRED_ATTRIBUTES.all? { |atrb| csv.headers.include? atrb }
       true
     else
-      row_errors['file'] = "Missing column: #{missing_attributes.join(', ')}"
+      row_errors['file'] = ["Missing column: #{missing_attributes.join(', ')}"]
       false
     end
   end

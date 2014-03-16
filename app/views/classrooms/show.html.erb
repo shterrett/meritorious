@@ -3,9 +3,20 @@
     <h1><%= @classroom.name %></h1>
   </header>
 
+  <div id='students-import'>
+    <%= form_tag classroom_student_imports_path(@classroom), multipart: true,  method: :post do %>
+      <%= file_field_tag 'student_imports' %>
+      <%= submit_tag 'Import Students' %>
+    <% end %>
+
+    <% if @errors %>
+      <%= render 'student_imports/import_errors', errors: @errors %>
+    <% end %>
+  </div>
+
   <ul id='students-list'>
     <% @students.each do |student| %>
-      <%= render 'student', student: student %>
+      <%= render 'classrooms/student', student: student %>
     <% end %>
   </ul>
 </main>

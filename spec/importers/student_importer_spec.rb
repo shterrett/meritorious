@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StudentImporter do
   it 'imports students a csv of students into a specific classroom' do
     classroom = create(:classroom)
-    student_importer = StudentImporter.new(file('students.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('students.csv'), classroom)
 
     student_1_attributes = { first_name: 'Mark',
                              last_name: 'Twain',
@@ -43,7 +43,7 @@ describe StudentImporter do
     existing_student = Student.create(student_1_attributes.merge(school_id: classroom.school.id))
     classroom.students << existing_student
 
-    student_importer = StudentImporter.new(file('students.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('students.csv'), classroom)
 
     expect do
       student_importer.import
@@ -69,7 +69,7 @@ describe StudentImporter do
                            }
     existing_student = Student.create(student_1_attributes.merge(school_id: classroom.school.id))
 
-    student_importer = StudentImporter.new(file('students.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('students.csv'), classroom)
 
     expect do
       student_importer.import
@@ -90,7 +90,7 @@ describe StudentImporter do
                            student_id: 'krowkcolc'
                          }
 
-    student_importer = StudentImporter.new(file('student_with_email.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('student_with_email.csv'), classroom)
 
     expect do
       student_importer.import
@@ -111,7 +111,7 @@ describe StudentImporter do
                            student_id: 'krowkcolc'
                          }
 
-    student_importer = StudentImporter.new(file('student_with_extra_columns.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('student_with_extra_columns.csv'), classroom)
 
     expect do
       student_importer.import
@@ -126,7 +126,7 @@ describe StudentImporter do
 
   it 'does not add a class_assignment record if the student record is invalid' do
     classroom = create(:classroom)
-    student_importer = StudentImporter.new(file('student_missing_id.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('student_missing_id.csv'), classroom)
 
     expect do
       student_importer.import
@@ -135,7 +135,7 @@ describe StudentImporter do
 
   it 'records an error if a student is missing the student id' do
     classroom = create(:classroom)
-    student_importer = StudentImporter.new(file('student_missing_id.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('student_missing_id.csv'), classroom)
 
     errors = Student.create(first_name: 'Ayn', last_name: 'Rand').errors.full_messages
 
@@ -147,7 +147,7 @@ describe StudentImporter do
 
   it 'records an error if a student is missing their first name' do
     classroom = create(:classroom)
-    student_importer = StudentImporter.new(file('student_missing_first_name.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('student_missing_first_name.csv'), classroom)
     errors = Student.create(last_name: 'Dickens', student_id: '2cities').errors.full_messages
 
     expect do
@@ -159,7 +159,7 @@ describe StudentImporter do
 
   it 'records an error if a student is missing their last name' do
     classroom = create(:classroom)
-    student_importer = StudentImporter.new(file('student_missing_last_name.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('student_missing_last_name.csv'), classroom)
     errors = Student.create(first_name: 'Charles', student_id: '2cities').errors.full_messages
 
     expect do
@@ -169,18 +169,26 @@ describe StudentImporter do
     expect(student_importer.row_errors).to eq({ 'Charles 2cities' => errors })
   end
 
+  it 'imports valid students when some are invalid' do
+    classroom = create(:classroom)
+    student_importer = StudentImporter.new(uploaded_file('valid_and_invalid_students.csv'), classroom)
+    errors = Student.create(first_name: 'Charles', student_id: '2cities').errors.full_messages
+
+    expect do
+      student_importer.import
+    end.to change(Student, :count).by(2)
+
+    expect(student_importer.row_errors).to eq({ 'Charles 2cities' => errors })
+  end
+
   it 'records an error and does not import if a required column is missing from the file' do
     classroom = create(:classroom)
-    student_importer = StudentImporter.new(file('students_missing_column.csv'), classroom)
+    student_importer = StudentImporter.new(uploaded_file('students_missing_column.csv'), classroom)
 
     expect do
       student_importer.import
     end.to change(Student, :count).by(0)
 
-    expect(student_importer.row_errors).to eq({ 'file' => 'Missing column: student_id' })
-  end
-
-  def file(file_name)
-    Rack::Test::UploadedFile.new(Rails.root.join('spec', 'data', 'importers', file_name), 'text/csv')
+    expect(student_importer.row_errors).to eq({ 'file' => ['Missing column: student_id'] })
   end
 end

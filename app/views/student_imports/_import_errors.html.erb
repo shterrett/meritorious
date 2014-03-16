@@ -1,0 +1,7 @@
+<ul id='import-errors'>
+  <% errors.each do |student, messages| %>
+    <% messages.each do |message| %>
+      <li><%= student %>: <%= message %></li>
+    <% end %>
+  <% end %>
+</ul>
