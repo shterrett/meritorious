@@ -1,6 +1,26 @@
 require 'spec_helper'
 
 feature 'meetings' do
+  it 'shows a list of meetings for a particular classroom' do
+    classroom = create(:classroom)
+    teacher = classroom.teacher
+    meetings = create_list(:meeting, 2, classroom: classroom)
+
+    sign_in_as teacher
+
+    visit classroom_path(classroom)
+
+    within "[data-role='meeting-list']" do
+      click_link 'Past Meetings'
+    end
+
+    meetings.each do |meeting|
+      expect(page).to have_link(I18n.l(meeting.created_at, format: :day_time),
+                                        href: meeting_path(meeting)
+                               )
+    end
+  end
+
   it 'creates a meeting from the list of classrooms' do
     classroom = create(:classroom)
     teacher = classroom.teacher

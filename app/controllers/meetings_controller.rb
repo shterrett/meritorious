@@ -1,4 +1,8 @@
 class MeetingsController < AuthenticatedController
+  def index
+    @meetings = find_classroom.meetings
+  end
+
   def create
     @meeting = Meeting.create(classroom: find_classroom)
     redirect_to meeting_path(@meeting)

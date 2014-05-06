@@ -1,6 +1,7 @@
 <main id='classroom'>
   <header>
     <h1><%= @classroom.name %></h1>
+    <h2 data-role='meeting-list'><%= link_to 'Past Meetings', classroom_meetings_path(@classroom) %></h2>
   </header>
 
   <div id='students-import'>

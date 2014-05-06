@@ -1,0 +1,10 @@
+<main id='meeting-list'>
+  <header>
+    <h1>List of Meetings</h1>
+  </header>
+  <ul>
+    <% @meetings.each do |meeting| %>
+      <li><%= link_to l(meeting.created_at, format: :day_time), meeting_path(meeting) %></li>
+    <% end %>
+  </ul>
+</main>
